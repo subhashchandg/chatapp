@@ -1,9 +1,3 @@
-[{
-  id: '/#12poiajdspfoif',
-  name: 'Andrew',
-  room: 'The Office Fans'
-}]
-
 // addUser(id, name, room)
 // removeUser(id)
 // getUser(id)
@@ -39,17 +33,3 @@ class Users {
 }
 
 module.exports = {Users};
-
- // class Person {
- //   constructor (name, age) {
- //     this.name = name;
- //     this.age = age;
- //   }
- //   getUserDescription () {
- //     return `${this.name} is ${this.age} year(s) old.`;
- //   }
- // }
- //
- // var me = new Person('Andrew', 25);
- // var description = me.getUserDescription();
- // console.log(description);
