@@ -44,6 +44,27 @@ io.on('connection', (socket) => {
     callback();
   });
 
+  socket.on('someoneistyping', (message, callback) => {
+
+    var user = users.getUser(socket.id);
+
+    if (user) {
+      socket.broadcast.to(user.room).emit('someoneistyping',user.name);
+    }
+    
+  });
+
+  socket.on('stoppedtyping', () => {
+
+    var user = users.getUser(socket.id);
+
+    if (user) {
+      socket.broadcast.to(user.room).emit('stoppedtyping');
+    }
+    
+  });
+
+
   socket.on('createLocationMessage', (coords) => {
     var user = users.getUser(socket.id);
 

@@ -44,30 +44,57 @@ socket.on('updateUserList', function (users) {
 });
 
 socket.on('newMessage', function (message) {
+  
+  var params = Qs.parse(window.location.search,{ ignoreQueryPrefix: true });
   var formattedTime = moment(message.createdAt).format('h:mm a');
   var template = jQuery('#message-template').html();
   var html = Mustache.render(template, {
     text: message.text,
-    from: message.from,
-    createdAt: formattedTime
+    from: message.from === params.name ? 'You': message.from,
+    createdAt: formattedTime,
+    float: message.from === params.name ? 'float_right': null,
+    clear: 'clear_right'
   });
 
   jQuery('#messages').append(html);
   scrollToBottom();
+});
+
+socket.on('someoneistyping', function (name) {
+   jQuery('#typing-message').text(`${name} is typing...`)
+});
+
+socket.on('stoppedtyping', function () {
+  jQuery('#typing-message').text("")
 });
 
 socket.on('newLocationMessage', function (message) {
+  var params = Qs.parse(window.location.search,{ ignoreQueryPrefix: true });
   var formattedTime = moment(message.createdAt).format('h:mm a');
   var template = jQuery('#location-message-template').html();
   var html = Mustache.render(template, {
-    from: message.from,
     url: message.url,
-    createdAt: formattedTime
+    from: message.from === params.name ? 'You': message.from,
+    createdAt: formattedTime,
+    float: message.from === params.name ? 'float_right': null,
+    clear: 'clear_right'
   });
 
   jQuery('#messages').append(html);
   scrollToBottom();
 });
+var messageTextbox = jQuery('[name=message]')
+messageTextbox.on('input',(e)=> {
+  socket.emit('someoneistyping', {},function () {
+    messageTextbox.focus()
+  });
+})
+
+messageTextbox.on('blur',(e)=> {
+  socket.emit('stoppedtyping');
+})
+
+
 
 jQuery('#message-form').on('submit', function (e) {
   e.preventDefault();
@@ -79,6 +106,7 @@ jQuery('#message-form').on('submit', function (e) {
   }, function () {
     messageTextbox.val('')
     messageTextbox.focus()
+    socket.emit('stoppedtyping');
   });
 });
 

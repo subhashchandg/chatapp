@@ -19,6 +19,7 @@
   <div class="chat__main">
     <ol id="messages" class="chat__messages"></ol>
 
+    <p id="typing-message"></p>
     <div class="chat__footer">
       <form id="message-form">
         <input name="message" type="text" placeholder="Message" autofocus autocomplete="off"/>
@@ -29,24 +30,25 @@
   </div>
 
   <script id="message-template" type="text/template">
-    <li class="message">
-      <div class="message__title">
+    <li class="message {{float}} {{clear}}">
+      <div class="message__title {{float}}">
         <h4>{{from}}</h4>
         <span>{{createdAt}}</span>
       </div>
-      <div class="message__body">
+      <div class="message__body {{clear}}">
         <p>{{text}}</p>
       </div>
+      <div class="{{clear}}"></div>
     </li>
   </script>
 
   <script id="location-message-template" type="text/template">
-    <li class="message">
-      <div class="message__title">
+    <li class="message {{float}} {{clear}}">
+      <div class="message__title {{float}}">
         <h4>{{from}}</h4>
         <span>{{createdAt}}</span>
       </div>
-      <div class="message__body">
+      <div class="message__body {{clear}}">
         <p>
           <a href="{{url}}" target="_blank">My current location</a>
         </p>
