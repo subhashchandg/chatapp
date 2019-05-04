@@ -78,6 +78,7 @@ jQuery('#message-form').on('submit', function (e) {
     text: messageTextbox.val()
   }, function () {
     messageTextbox.val('')
+    messageTextbox.focus()
   });
 });
 
